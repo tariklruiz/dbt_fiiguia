@@ -1,0 +1,23 @@
+version: 2
+
+sources:
+  - name: fii_guia
+    description: Tabelas cruas carregadas pelo pipeline do FII Guia no Postgres.
+    schema: public
+    tables:
+      - name: cotahist
+        description: Cotações diárias (COTAHIST/B3). Grão ticker + dt_pregao.
+      - name: dividendos
+        description: Proventos pagos. Grão id_documento. Única fonte com ticker E cnpj_fundo (ponte).
+        columns:
+          - name: id_documento
+            data_tests:
+              - not_null
+              - unique
+      - name: informe_mensal
+        description: Informe mensal CVM. Grão cnpj_fundo + competencia. Não tem ticker.
+        columns:
+          - name: id_documento
+            data_tests:
+              - not_null
+              - unique

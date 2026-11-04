@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: fct_dy_ultimo_provento
+    description: >
+      Dividend yield do último provento de cada fundo (rn = 1 em
+      int_proventos_agregados), calculado como total_proventos / preco_fechamento.
+      Critério intencional: só entram fundos com cotação na cotahist na data-base
+      desse último provento (inner join em ticker + dt_base = dt_pregao); sem
+      negociação naquele dia, não há preço para calcular o DY.
+      Yield bruto de distribuições: pode incluir amortização (ver outliers, ex. PNDL11).
+    columns:
+      - name: ticker
+        description: Código de negociação do fundo. Uma linha por ticker.
+        data_tests:
+          - not_null
+          - unique
+      - name: dt_base
+        description: Data-base do último provento (data-com), igual à data do pregão usado no preço.
+      - name: dt_pagamento
+        description: Data de pagamento do provento.
+      - name: preco_fechamento
+        description: Preço de fechamento ajustado na dt_base.
+      - name: total_proventos
+        description: Soma dos proventos do ticker na dt_base (rendimento + eventual amortização).
+      - name: dy_pct
+        description: total_proventos / preco_fechamento * 100, arredondado a 2 casas. Nulo se o preço for zero.

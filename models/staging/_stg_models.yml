@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: stg_cotahist
+    description: Cotações diárias, 1:1 com a origem, colunas renomeadas.
+  - name: stg_dividendos
+    description: Proventos, 1:1 com a origem. Grão id_documento (NÃO ticker + dt_base).
+    columns:
+      - name: id_documento
+        data_tests:
+          - not_null
+          - unique
+    # Teste abaixo falhou com 870 duplicatas: um fundo pode pagar mais de um
+    # provento na mesma data-base (rendimento + amortização). ticker + dt_base
+    # é chave de junção, não de unicidade.
+    # data_tests:
+    #   - dbt_utils.unique_combination_of_columns:
+    #       combination_of_columns: [ticker, dt_base]
+  - name: stg_informe_mensal
+    description: Informe mensal CVM, subconjunto enxuto de colunas.
+    columns:
+      - name: id_documento
+        data_tests:
+          - not_null
+          - unique
