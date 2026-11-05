@@ -21,7 +21,8 @@ renamed as (
         patrimonio_liquido,
         qtd_cotas_emitidas,
         valor_patr_cotas,
-        competencia as dt_competencia
+        competencia as dt_competencia,
+        inserido_em as dt_insercao
     from source
 
 )
