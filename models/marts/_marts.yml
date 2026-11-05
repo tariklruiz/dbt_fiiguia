@@ -8,6 +8,11 @@ models:
       Critério intencional: só entram fundos com cotação na cotahist na data-base
       desse último provento (inner join em ticker + dt_base = dt_pregao); sem
       negociação naquele dia, não há preço para calcular o DY.
+      Por definição, DY = proventos / preço NA data-base. Um as-of join (última
+      cotação antes da data-base) foi avaliado e descartado: fundos que ficam sem
+      negociar podem acumular proventos e liberá-los ao voltar, e um preço antigo
+      distorceria o yield. Ver analyses/perda_join_cotacao.sql para o tamanho da
+      exclusão por motivo.
       Yield bruto de distribuições: pode incluir amortização (ver outliers, ex. PNDL11).
     columns:
       - name: ticker
